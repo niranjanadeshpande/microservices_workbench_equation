@@ -1,0 +1,62 @@
+niranjana@gol1570-04:~/microservices/toy_problem$ docker build -t rcvsqr /home/niranjana/microservices/toy_problem/receiver/
+Sending build context to Docker daemon  3.072kB
+Step 1/4 : FROM ubuntu
+ ---> f975c5035748
+Step 2/4 : RUN     apt-get update && apt-get install -y python python-dev python-pip python-virtualenv && rm -rf /var/lib/apt/lists/*
+ ---> Using cache
+ ---> fa8d44c9f662
+Step 3/4 : ADD receiver.py /root/receiver.py
+ ---> Using cache
+ ---> 8e1ab6017ec4
+Step 4/4 : CMD python -u /root/receiver.py $LISTEN_HOST $LISTEN_PORT
+ ---> Using cache
+ ---> 6e523e2b8b46
+Successfully built 6e523e2b8b46
+Successfully tagged rcvsqr:latest
+niranjana@gol1570-04:~/microservices/toy_problem$ docker build -t sendsqr /home/niranjana/microservices/toy_problem/sender/
+Sending build context to Docker daemon  3.072kB
+Step 1/4 : FROM ubuntu
+ ---> f975c5035748
+Step 2/4 : RUN     apt-get update && apt-get install -y python python-dev python-pip python-virtualenv && rm -rf /var/lib/apt/lists/*
+ ---> Using cache
+ ---> fa8d44c9f662
+Step 3/4 : ADD sender.py /root/sender.py
+ ---> Using cache
+ ---> 331c678f0cd3
+Step 4/4 : CMD python -u /root/sender.py $SEND_HOST $SEND_PORT
+ ---> Using cache
+ ---> ce6d84c6519b
+Successfully built ce6d84c6519b
+Successfully tagged sendsqr:latest
+niranjana@gol1570-04:~/microservices/toy_problem$ docker run --name="testTalk" --env SEND_HOST="testListen" --env SEND_PORT="5555" --network=sample-sendr-rcv-test -d sendsqr
+cd6a6bb12d41af1ac7e69b19835bb40b6da42fae582f46519b47e056f5f2879c
+niranjana@gol1570-04:~/microservices/toy_problem$ docker logs testListen --follow
+received:  Hello, world! sending... 49
+^C
+niranjana@gol1570-04:~/microservices/toy_problem$ 
+
+
+
+
+niranjana@gol1570-04:~/microservices/toy_problem$ docker build -t rcvsqr /home/niranjana/microservices/toy_problem/receiver/
+Sending build context to Docker daemon  3.072kB
+Step 1/4 : FROM ubuntu
+ ---> f975c5035748
+Step 2/4 : RUN     apt-get update && apt-get install -y python python-dev python-pip python-virtualenv && rm -rf /var/lib/apt/lists/*
+ ---> Using cache
+ ---> fa8d44c9f662
+Step 3/4 : ADD receiver.py /root/receiver.py
+ ---> Using cache
+ ---> 8e1ab6017ec4
+Step 4/4 : CMD python -u /root/receiver.py $LISTEN_HOST $LISTEN_PORT
+ ---> Using cache
+ ---> 6e523e2b8b46
+Successfully built 6e523e2b8b46
+Successfully tagged rcvsqr:latest
+niranjana@gol1570-04:~/microservices/toy_problem$ docker network create --driver bridge sample-sendr-rcv-test
+Error response from daemon: network with name sample-sendr-rcv-test already exists
+niranjana@gol1570-04:~/microservices/toy_problem$ docker run  --name="testListen" --env LISTEN_HOST="0.0.0.0" --env LISTEN_PORT="5555" --network=sample-sendr-rcv-test -d rcvsqr
+1031c1859e79d45a75b8a65803a115cd8a97c13d6ed9b076e681fd8e62aa5814
+niranjana@gol1570-04:~/microservices/toy_problem$ 
+
+
