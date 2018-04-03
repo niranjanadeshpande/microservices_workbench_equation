@@ -5,4 +5,4 @@ RUN \
 
 ADD integral.py /root/integral.py
 
-CMD python -u /root/integral.py $SEND_HOST $SEND_PORT
+CMD python -u /root/integral.py $LISTEN_HOST $LISTEN_PORT $SEND_HOST $SEND_PORT

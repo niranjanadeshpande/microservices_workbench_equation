@@ -13,10 +13,13 @@ sock_new.bind((sys.argv[1],int(sys.argv[2])))
 sock_new.listen(10)
 sock_new.settimeout(300)
 
+#sock_new.setblocking(0)
+
+
 while True:
 	conn, addr = sock_new.accept()
 	data = conn.recv(2048)
-	conn.close()
+	
 	print "received: ",data
 
 	
@@ -27,6 +30,8 @@ while True:
 	sock_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock_send.connect((sys.argv[3],int(sys.argv[4])))
 	sock_send.settimeout(300)
+	#sock_send.setblocking(0)
 	sock_send.send(data_send)
-	sock_send.close()
+sock_send.close()
+conn.close()
 	
