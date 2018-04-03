@@ -5,4 +5,4 @@ RUN \
 
 ADD round.py /root/round.py
 
-CMD python -u /root/round.py $LISTEN_HOST $LISTEN_PORT
+CMD python -u /root/round.py $LISTEN_HOST $LISTEN_PORT $SEND_HOST $SEND_PORT

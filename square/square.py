@@ -6,9 +6,11 @@ import sys
 
 x = 7
 res = 7 * 7
-data = "Hello, world! sending... %s" % res
+data = "%s" % res
+print "sending ", res
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((sys.argv[1],int(sys.argv[2]))) #socket.gethostname(),5050
+sock.settimeout(300)
 sock.send(data)
 sock.close()
 

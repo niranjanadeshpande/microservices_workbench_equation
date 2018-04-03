@@ -1,0 +1,7 @@
+docker network create --driver bridge sample-sendr-rcv-test
+docker build -t result /home/niranjana/microservices/Equation_Microservices/microservices_workbench_equation/result/
+docker run  --name="result" --env LISTEN_HOST="0.0.0.0" --env LISTEN_PORT_ONE="7071" LISTEN_PORT_TWO="8080" --network=sample-sendr-rcv-test -d result
+docker build -t round /home/niranjana/microservices/Equation_Microservices/microservices_workbench_equation/round/
+docker run --name="round" --env SEND_HOST="result" --env SEND_PORT="7071" --network=sample-sendr-rcv-test -d round
+docker build -t square /home/niranjana/microservices/Equation_Microservices/microservices_workbench_equation/square/
+docker run --name="square" --env SEND_HOST="result" --env SEND_PORT="8080" --network=sample-sendr-rcv-test -d square
